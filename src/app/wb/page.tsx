@@ -8,7 +8,6 @@ import {
   AlertTriangle,
   CheckCircle2,
   Info,
-  TrendingUp,
   Fuel,
   Users as UsersIcon,
   Maximize2,
