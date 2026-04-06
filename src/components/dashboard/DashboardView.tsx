@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   ShieldCheck, 
   FileText, 
@@ -17,10 +17,16 @@ import MainCharts from './MainCharts';
 import ActivityFeed from './ActivityFeed';
 import FasesSummary from './FasesSummary';
 
-export default function DashboardView() {
-  const { user, qtg, reqs, activity } = useAppStore();
+const DEMO_USER = { email: 'operador@fstd.com', name: 'Eduardo Forgan', role: 'Operador', abbr: 'FOR', color: '#f59e0b', pass: 'demo123' };
 
-  if (!user) return null;
+export default function DashboardView() {
+  const { user, qtg, reqs, activity, setUser } = useAppStore();
+
+  useEffect(() => {
+    if (!user) setUser(DEMO_USER);
+  }, []);
+
+  const effectiveUser = user ?? DEMO_USER;
 
   return (
     <div className="space-y-8 animate-fade-in">

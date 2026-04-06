@@ -33,11 +33,13 @@ const navItems = [
   { id: 'wb', label: 'Computadoras W&B', icon: Calculator, href: '/wb' },
 ];
 
+const DEMO_USER = { email: 'operador@fstd.com', name: 'Eduardo Forgan', role: 'Operador', abbr: 'FOR', color: '#f59e0b', pass: 'demo123' };
+
 export default function Sidebar() {
   const pathname = usePathname();
   const { user, qtg, reqs, docs, checklist } = useAppStore();
 
-  if (!user) return null;
+  const effectiveUser = user ?? DEMO_USER;
 
   const getProgress = (id: string) => {
     switch (id) {
@@ -82,13 +84,13 @@ export default function Sidebar() {
         <div className="flex items-center gap-3">
           <div 
             className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-inner"
-            style={{ background: `linear-gradient(135deg, ${user.color}, ${user.color}88)` }}
+            style={{ background: `linear-gradient(135deg, ${effectiveUser.color}, ${effectiveUser.color}88)` }}
           >
-            {user.abbr}
+            {effectiveUser.abbr}
           </div>
           <div className="overflow-hidden">
-            <p className="text-sm font-semibold text-white truncate">{user.name}</p>
-            <p className="text-xs text-white/40 truncate">{user.role}</p>
+            <p className="text-sm font-semibold text-white truncate">{effectiveUser.name}</p>
+            <p className="text-xs text-white/40 truncate">{effectiveUser.role}</p>
           </div>
         </div>
       </div>
