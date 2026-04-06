@@ -19,7 +19,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  transpilePackages: ["lucide-react"]
+  transpilePackages: ["lucide-react"],
+  turbopack: {}
 };
 
 export default withPWA(nextConfig);
