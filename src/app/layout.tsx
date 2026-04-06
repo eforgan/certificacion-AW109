@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
 import AmbientBackground from "@/components/ui/AmbientBackground";
+import ServiceWorkerKill from "@/components/ui/ServiceWorkerKill";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${inter.variable} ${outfit.variable}`}>
       <body className="antialiased">
+        <ServiceWorkerKill />
         <AmbientBackground />
         <Sidebar />
         <main className="ml-72 min-h-screen p-8 transition-all duration-300">
