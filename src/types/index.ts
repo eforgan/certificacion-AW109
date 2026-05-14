@@ -77,3 +77,15 @@ export interface Snapshot {
   date: string;
   pct: number;
 }
+
+export type NotifLevel = 'info' | 'warning' | 'critical' | 'success';
+
+export interface Notif {
+  id: string;
+  title: string;
+  body: string;
+  level: NotifLevel;
+  time: string;
+  read: boolean;
+  link?: string;
+}

@@ -18,6 +18,7 @@ import {
 import { useAppStore } from '@/store/useAppStore';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import NotificationBell from '@/components/ui/NotificationBell';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -80,16 +81,17 @@ export default function Sidebar() {
       {/* User info */}
       <div className="mx-6 p-4 rounded-2xl bg-white/5 border border-white/5 mb-8">
         <div className="flex items-center gap-3">
-          <div 
-            className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-inner"
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-inner flex-shrink-0"
             style={{ background: `linear-gradient(135deg, ${effectiveUser.color}, ${effectiveUser.color}88)` }}
           >
             {effectiveUser.abbr}
           </div>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden flex-1">
             <p className="text-sm font-semibold text-white truncate">{effectiveUser.name}</p>
             <p className="text-xs text-white/40 truncate">{effectiveUser.role}</p>
           </div>
+          <NotificationBell />
         </div>
       </div>
 
