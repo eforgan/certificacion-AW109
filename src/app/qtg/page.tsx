@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Search, 
-  Filter, 
-  Download, 
+import {
+  Search,
+  Filter,
+  Download,
+  FileText,
   ChevronDown,
 } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
@@ -12,9 +13,10 @@ import { Category } from '../../types';
 import QTGTable from '../../components/qtg/QTGTable';
 import QTGDetailModal from '../../components/qtg/QTGDetailModal';
 import QTGVerificationSheet from '../../components/qtg/QTGVerificationSheet';
+import { exportQTGtoCSV, printQTGReport } from '@/lib/export';
 
 export default function QTGPage() {
-  const { qtg } = useAppStore();
+  const { qtg, reqs } = useAppStore();
   const [filter, setFilter] = useState<Category | 'all'>('all');
   const [search, setSearch] = useState('');
   const [selectedQTG, setSelectedQTG] = useState<string | null>(null);
@@ -68,12 +70,19 @@ export default function QTGPage() {
           <p className="text-white/60 font-bold uppercase text-[10px] tracking-widest">Ejecución y registro formal RAAC Parte 60</p>
         </div>
         <div className="flex items-center gap-3">
-           <button 
-             onClick={() => {}}
-             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 border border-white/10 hover:bg-white text-blue-600 transition-all text-xs font-black uppercase tracking-widest"
+           <button
+             onClick={() => exportQTGtoCSV(qtg)}
+             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 border border-white/10 hover:bg-white/20 text-white transition-all text-xs font-black uppercase tracking-widest"
            >
              <Download className="w-4 h-4" />
              Exportar CSV
+           </button>
+           <button
+             onClick={() => printQTGReport(qtg, reqs)}
+             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 border border-blue-500/40 hover:bg-blue-500 text-white transition-all text-xs font-black uppercase tracking-widest shadow-lg shadow-blue-900/40"
+           >
+             <FileText className="w-4 h-4" />
+             Exportar PDF
            </button>
         </div>
       </div>
