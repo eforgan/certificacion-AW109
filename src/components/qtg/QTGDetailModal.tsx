@@ -92,24 +92,29 @@ export default function QTGDetailModal({ id, onClose }: Props) {
               </div>
             </div>
             
-            <div className="space-y-6 bg-white/5 p-6 rounded-3xl border border-white/5">
-              <div className="flex justify-between items-center group">
-                <div className="space-y-1">
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Referencia RFM</p>
-                    <p className="text-lg font-display font-bold text-brand-light">{item.ref_val}</p>
-                </div>
-                <div className="space-y-1 text-right">
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Tolerancia</p>
-                    <p className="text-sm font-bold text-white/60">{item.tol}</p>
-                </div>
+            <div className="space-y-4 bg-white/5 p-6 rounded-3xl border border-white/5">
+              {/* Título criterios */}
+              <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">Criterios de Aceptación — Manual RFM</p>
+
+              {/* Valor de referencia */}
+              <div className="bg-brand/10 border border-brand/20 rounded-2xl p-4">
+                <p className="text-[9px] font-black text-brand-light/50 uppercase tracking-widest mb-1">Valor de Referencia (RFM)</p>
+                <p className="text-base font-display font-bold text-brand-light leading-tight">{item.ref_val}</p>
+                {item.param && <p className="text-[9px] text-white/30 mt-1 font-bold">{item.param} · {item.unit}</p>}
               </div>
-              
+
+              {/* Tolerancia */}
+              <div className="bg-warning/10 border border-warning/20 rounded-2xl p-4">
+                <p className="text-[9px] font-black text-warning/60 uppercase tracking-widest mb-1">Tolerancia Admisible (RAAC 60)</p>
+                <p className="text-lg font-display font-bold text-warning leading-tight">{item.tol}</p>
+              </div>
+
               {item.critical && (
-                <div className="pt-4 border-t border-white/5 flex items-start gap-3">
-                    <AlertTriangle className="w-5 h-5 text-warning shrink-0" />
+                <div className="bg-danger/10 border border-danger/20 rounded-2xl p-3 flex items-start gap-3">
+                    <AlertTriangle className="w-4 h-4 text-danger shrink-0 mt-0.5" />
                     <div className="space-y-0.5">
-                        <p className="text-[10px] font-bold text-warning uppercase tracking-widest">Prueba Crítica</p>
-                        <p className="text-[10px] text-white/30 font-medium">Cualquier resultado fuera de tolerancia implica el rechazo directo de la calificación.</p>
+                        <p className="text-[9px] font-black text-danger uppercase tracking-widest">Prueba Crítica</p>
+                        <p className="text-[9px] text-white/30 font-medium">Cualquier resultado fuera de tolerancia implica el rechazo directo de la calificación.</p>
                     </div>
                 </div>
               )}
@@ -121,13 +126,16 @@ export default function QTGDetailModal({ id, onClose }: Props) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1">Resultado Obtenido</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={result}
                   onChange={(e) => setResult(e.target.value)}
-                  placeholder="Ej: 1800 FPM"
+                  placeholder={`Ej: ${item.ref_val}`}
                   className="input-premium font-display font-semibold text-lg"
                 />
+                <p className="text-[9px] text-white/20 font-bold px-1">
+                  Para aprobar: <span className="text-warning/70">{item.ref_val}</span> · tol. <span className="text-warning/70">{item.tol}</span>
+                </p>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1">Estado de la Prueba</label>

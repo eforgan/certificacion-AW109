@@ -1,19 +1,19 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  FileText, 
-  CheckSquare, 
-  BookOpen, 
+import {
+  LayoutDashboard,
+  FileText,
+  CheckSquare,
+  BookOpen,
   Image as ImageIcon,
   Calculator,
-  Settings,
   LogOut,
-  ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Menu,
+  X,
 } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { clsx, type ClassValue } from 'clsx';
@@ -25,18 +25,22 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/' },
-  { id: 'qtg', label: 'Gestión QTG', icon: FileText, href: '/qtg' },
-  { id: 'fases', label: 'Fases Certificación', icon: CheckSquare, href: '/fases' },
-  { id: 'normativa', label: 'Normativa RAAC', icon: ShieldCheck, href: '/normativa' },
-  { id: 'docs', label: 'Documentación', icon: BookOpen, href: '/docs' },
-  { id: 'visual', label: 'Recursos Visuales', icon: ImageIcon, href: '/visual' },
-  { id: 'wb', label: 'Computadoras W&B', icon: Calculator, href: '/wb' },
+  { id: 'dashboard', label: 'Dashboard',          icon: LayoutDashboard, href: '/' },
+  { id: 'qtg',       label: 'Gestión QTG',         icon: FileText,        href: '/qtg' },
+  { id: 'fases',     label: 'Fases Certificación', icon: CheckSquare,     href: '/fases' },
+  { id: 'normativa', label: 'Normativa RAAC',      icon: ShieldCheck,     href: '/normativa' },
+  { id: 'docs',      label: 'Documentación',       icon: BookOpen,        href: '/docs' },
+  { id: 'visual',    label: 'Recursos Visuales',   icon: ImageIcon,       href: '/visual' },
+  { id: 'wb',        label: 'Computadoras W&B',    icon: Calculator,      href: '/wb' },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { user, qtg, reqs, docs, checklist } = useAppStore();
+  const { user, qtg, reqs, docs } = useAppStore();
+  const [open, setOpen] = useState(false);
+
+  // Cerrar sidebar al cambiar de página en mobile
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   const effectiveUser = user!;
 
@@ -44,10 +48,11 @@ export default function Sidebar() {
     switch (id) {
       case 'qtg':
         return Math.round((qtg.filter(q => q.status === 'approved').length / qtg.length) * 100);
-      case 'fases':
+      case 'fases': {
         const done = Object.values(reqs).filter(Boolean).length;
         const total = Object.keys(reqs).length;
         return Math.round((done / total) * 100);
+      }
       case 'docs':
         return Math.round((docs.filter(d => d.status.includes('✅')).length / docs.length) * 100);
       default:
@@ -55,9 +60,9 @@ export default function Sidebar() {
     }
   };
 
-  return (
-    <aside className="w-72 h-screen fixed left-0 top-0 bg-[#1577c4] border-r border-white/20 flex flex-col z-50 shadow-2xl">
-      {/* Brand & Logos Top */}
+  const sidebarContent = (
+    <aside className="w-72 h-full bg-[#1577c4] border-r border-white/20 flex flex-col shadow-2xl">
+      {/* Brand & Logos */}
       <div className="p-6 border-b border-white/20">
         <div className="flex flex-col gap-4 mb-6">
           <div className="aspect-[16/9] w-full bg-white/10 rounded-lg overflow-hidden flex items-center justify-center shadow-inner">
@@ -79,7 +84,7 @@ export default function Sidebar() {
       </div>
 
       {/* User info */}
-      <div className="mx-6 p-4 rounded-2xl bg-white/5 border border-white/5 mb-8">
+      <div className="mx-6 p-4 rounded-2xl bg-white/5 border border-white/5 mb-8 mt-4">
         <div className="flex items-center gap-3">
           <div
             className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-inner flex-shrink-0"
@@ -100,9 +105,8 @@ export default function Sidebar() {
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const progress = getProgress(item.id);
-          
           return (
-            <Link 
+            <Link
               key={item.id}
               href={item.href}
               className={cn(
@@ -117,13 +121,9 @@ export default function Sidebar() {
                   <span className="text-[10px] font-bold text-brand-light/70">{progress}%</span>
                 )}
               </div>
-              
               {isActive && progress > 0 && (
                 <div className="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-brand-light transition-all duration-500" 
-                    style={{ width: `${progress}%` }}
-                  />
+                  <div className="h-full bg-brand-light transition-all duration-500" style={{ width: `${progress}%` }} />
                 </div>
               )}
             </Link>
@@ -131,24 +131,70 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Footer & Logos Bottom */}
+      {/* Footer */}
       <div className="p-6 border-t border-white/5 bg-white/[0.01]">
-        <button 
+        <button
           onClick={() => useAppStore.getState().setUser(null)}
           className="flex items-center gap-3 w-full p-3 rounded-xl text-white/40 hover:text-danger hover:bg-danger/10 transition-all duration-300 mb-6"
         >
           <LogOut className="w-5 h-5" />
           <span className="text-sm font-medium">Cerrar Sesión</span>
         </button>
-
         <div className="flex items-center justify-between opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500">
           <img src="/img/logo_modena_ceac.png" alt="Modena CEAC" className="h-6 w-auto object-contain" />
           <img src="/img/logo_6xsim.png" alt="6XSIM" className="h-6 w-auto object-contain" />
         </div>
         <p className="text-[8px] text-center text-white/10 mt-4 leading-tight font-medium uppercase tracking-[0.1em]">
-          Certification Manager v1.0<br/>&copy; 2026 Modena CEAC
+          Certification Manager v1.0<br />&copy; 2026 Modena CEAC
         </p>
       </div>
     </aside>
+  );
+
+  return (
+    <>
+      {/* Desktop / landscape tablet: sidebar fija */}
+      <div className="hidden lg:block fixed left-0 top-0 h-screen z-50 w-72">
+        {sidebarContent}
+      </div>
+
+      {/* Mobile / portrait tablet: drawer + hamburger */}
+      <div className="lg:hidden">
+        {/* Botón hamburguesa */}
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed top-4 left-4 z-50 w-12 h-12 rounded-2xl bg-[#1577c4] shadow-xl flex items-center justify-center text-white border border-white/20"
+          aria-label="Abrir menú"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+
+        {/* Overlay backdrop */}
+        {open && (
+          <div
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          />
+        )}
+
+        {/* Drawer */}
+        <div
+          className={cn(
+            "fixed left-0 top-0 h-screen z-50 w-72 transition-transform duration-300",
+            open ? "translate-x-0" : "-translate-x-full"
+          )}
+        >
+          {/* Botón cerrar */}
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute top-4 right-[-3rem] z-10 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"
+            aria-label="Cerrar menú"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          {sidebarContent}
+        </div>
+      </div>
+    </>
   );
 }

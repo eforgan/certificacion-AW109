@@ -31,7 +31,22 @@
       "Bash(git config:*)",
       "Bash(git push:*)",
       "Bash(vercel:*)",
-      "Bash(npx serve:*)"
+      "Bash(npx serve:*)",
+      "Bash(node_modules\\\\.bin\\\\next build *)",
+      "Bash(./node_modules/.bin/next build *)",
+      "PowerShell(next build *)",
+      "PowerShell(Start-Process \"http://localhost:3000/qtg\")",
+      "PowerShell(Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\SERVER-MADERO\\\\Desktop\\\\Output\\\\CERTIFICACION_SIMULADOR_AW109E'; node node_modules/next/dist/bin/next dev\")",
+      "PowerShell(netstat *)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000/qtg\" -UseBasicParsing 2>&1 | Select-Object -ExpandProperty Content | Select-Object -First 1 | Out-String | Select-String -Pattern \"error|Error|Error\" | Select-Object -First 5)",
+      "PowerShell(Get-Process | Where-Object { $_.Id -eq 17768 })",
+      "PowerShell(Start-Process \"http://localhost:3000\")",
+      "PowerShell(Stop-Process *)",
+      "PowerShell(Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\SERVER-MADERO\\\\Desktop\\\\Output\\\\CERTIFICACION_SIMULADOR_AW109E'; node node_modules/next/dist/bin/next dev --no-turbopack\")",
+      "PowerShell(Copy-Item *)",
+      "PowerShell(taskkill *)",
+      "PowerShell(ls \"C:\\\\Users\\\\SERVER-MADERO\\\\Desktop\\\\Output\\\\CERTIFICACION_SIMULADOR_AW109E\\\\out\" | Select-Object Name; Write-Host \"---\"; \\(Get-ChildItem \"C:\\\\Users\\\\SERVER-MADERO\\\\Desktop\\\\Output\\\\CERTIFICACION_SIMULADOR_AW109E\\\\out\" -Recurse\\).Count)",
+      "PowerShell(ls \"C:\\\\Users\\\\SERVER-MADERO\\\\Desktop\\\\Output\\\\CERTIFICACION_SIMULADOR_AW109E\" | Where-Object Name -in @\\(\"out\", \".next\"\\) | Select-Object Name, LastWriteTime)"
     ]
   }
 }

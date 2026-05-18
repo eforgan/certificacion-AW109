@@ -44,13 +44,13 @@ export default function QTGTable({ data, onSelect, onOpenSheet }: Props) {
     <div className="overflow-x-auto scrollbar-premium">
       <table className="w-full min-w-[1000px] text-left border-collapse table-fixed">
         <colgroup>
-          <col className="w-[12%]" />
-          <col className="w-[12%]" />
-          <col className="w-[30%]" />
-          <col className="w-[18%]" />
           <col className="w-[10%]" />
           <col className="w-[10%]" />
-          <col className="w-[8%]" />
+          <col className="w-[23%]" />
+          <col className="w-[13%]" />
+          <col className="w-[21%]" />
+          <col className="w-[11%]" />
+          <col className="w-[12%]" />
         </colgroup>
         <thead>
           <tr className="bg-white/5 border-b border-white/5 uppercase text-[10px] font-bold tracking-[0.2em] text-white/40">
@@ -58,9 +58,9 @@ export default function QTGTable({ data, onSelect, onOpenSheet }: Props) {
             <th className="px-4 py-6">Categoría</th>
             <th className="px-4 py-6">Nombre del Ensayo</th>
             <th className="px-4 py-6">Referencia RFM</th>
-            <th className="px-4 py-6">Valor</th>
+            <th className="px-4 py-6">Criterio de Aceptación / Resultado</th>
             <th className="px-4 py-6 text-center">Estado</th>
-            <th className="px-6 py-6 text-right">Acción</th>
+            <th className="px-6 py-6 text-center">Acción</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-white/5">
@@ -112,9 +112,26 @@ export default function QTGTable({ data, onSelect, onOpenSheet }: Props) {
                     </div>
                   </td>
                   <td className="px-4 py-5">
-                    <div className="flex flex-col">
-                      <span className="text-xs font-black text-brand-light">{q.result || '---'}</span>
-                      <span className="text-[9px] text-white/40 font-bold">{q.unit}</span>
+                    <div className="flex flex-col gap-1.5">
+                      {/* Criterio de aceptación del manual */}
+                      <div className="flex items-baseline gap-1.5 flex-wrap">
+                        <span className="text-[8px] font-black text-white/20 uppercase tracking-wider shrink-0">RFM:</span>
+                        <span className="text-[10px] font-bold text-white/60 leading-tight">{q.ref_val}</span>
+                      </div>
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-[8px] font-black text-warning/60 uppercase tracking-wider shrink-0">TOL:</span>
+                        <span className="text-[10px] font-bold text-warning/80">{q.tol}</span>
+                      </div>
+                      {/* Separador + resultado */}
+                      <div className="border-t border-white/10 pt-1.5 flex items-baseline gap-1.5">
+                        <span className="text-[8px] font-black text-white/20 uppercase tracking-wider shrink-0">OBT:</span>
+                        <span className={cn(
+                          "text-[10px] font-black",
+                          q.result ? (q.status === 'approved' ? 'text-success' : q.status === 'rejected' ? 'text-danger' : 'text-brand-light') : 'text-white/20'
+                        )}>
+                          {q.result ? `${q.result} ${q.unit}` : '—'}
+                        </span>
+                      </div>
                     </div>
                   </td>
                   <td className="px-4 py-5 text-center">
@@ -126,7 +143,7 @@ export default function QTGTable({ data, onSelect, onOpenSheet }: Props) {
                       <span className="text-[9px] font-black uppercase tracking-widest">{st.label}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-6 py-5 text-center">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();

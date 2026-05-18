@@ -39,7 +39,7 @@ export default function RootLayout({
         <ServiceWorkerKill />
         <AmbientBackground />
         <Sidebar />
-        <main className="ml-72 min-h-screen p-8 transition-all duration-300">
+        <main className="ml-0 lg:ml-72 min-h-screen p-4 lg:p-8 pt-20 lg:pt-8 transition-all duration-300">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

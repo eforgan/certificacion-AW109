@@ -1,23 +1,38 @@
 {
-  "name": "FSTD Cert Manager - AW109E Power",
+  "name": "FSTD Cert Manager — AW109E Power",
   "short_name": "FSTD Cert",
-  "description": "Sistema de gestión para la certificación de simuladores AW109E Power",
+  "description": "Sistema de gestión para la certificación ANAC de simuladores AW109E Power — RAAC Parte 60",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0a0c10",
+  "orientation": "any",
+  "background_color": "#0a4d8c",
   "theme_color": "#1577c4",
+  "lang": "es",
   "icons": [
+    {
+      "src": "/img/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
     {
       "src": "/img/logo_6xsim.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
       "src": "/img/logo_6xsim.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ]
 }

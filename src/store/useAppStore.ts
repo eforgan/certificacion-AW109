@@ -130,6 +130,17 @@ export const useAppStore = create<AppState>()(
     {
       name: 'fstd-aw109e-storage',
       storage: createJSONStorage(() => localStorage),
+      merge: (persisted: any, current) => ({
+        ...current,
+        ...persisted,
+        // Siempre usar la lista completa de QTG_DATA como base,
+        // pero preservar resultados/estado guardados por el usuario
+        qtg: QTG_DATA.map(q => {
+          const saved = persisted?.qtg?.find((s: any) => s.id === q.id);
+          if (!saved) return q;
+          return { ...q, status: saved.status, result: saved.result, obs: saved.obs, savedBy: saved.savedBy, savedAt: saved.savedAt };
+        }),
+      }),
     }
   )
 );
